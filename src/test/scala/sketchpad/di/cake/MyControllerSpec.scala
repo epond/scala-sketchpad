@@ -2,6 +2,10 @@ package sketchpad.di.cake
 
 import org.specs2.mutable.Specification
 
+/**
+ * MyController is being instantiated directly but its dependencies will be
+ * satisfied according to TestEnvironment
+ */
 class MyControllerSpec extends Specification with TestEnvironment {
    "MyController" should {
      "prefix stuff with 'Hello'" in {
