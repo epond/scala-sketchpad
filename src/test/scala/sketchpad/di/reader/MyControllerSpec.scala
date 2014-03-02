@@ -2,16 +2,13 @@ package sketchpad.di.reader
 
 import org.specs2.mutable.Specification
 
-class MyComponentSpec extends Specification {
-  "MyComponent" should {
+class MyControllerSpec extends Specification {
+  "MyController" should {
     "prefix stuff with 'Hello'" in {
-
-      val myComponentReader = MyComponent.myMethod
-
-      val result = myComponentReader(new MyService{
+      val myControllerReader = MyController.myMethod
+      val result = myControllerReader(new MyService{
         def doStuff: String = "test implementation"
       })
-
       result mustEqual("Hello test implementation")
     }
   }
