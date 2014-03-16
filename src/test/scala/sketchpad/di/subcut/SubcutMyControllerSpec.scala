@@ -2,7 +2,7 @@ package sketchpad.di.subcut
 
 import org.specs2.mutable.Specification
 
-class MyControllerSpec extends Specification {
+class SubcutMyControllerSpec extends Specification {
   "Subcut MyController" should {
     "prefix stuff with 'Hello'" in {
       ConfigurationModule.modifyBindings { implicit testModule =>
