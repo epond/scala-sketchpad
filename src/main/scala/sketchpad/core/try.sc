@@ -1,6 +1,7 @@
 import scala.util.{Failure, Success, Try}
 
 val a: Try[Int] = Try(2)
+//val a: Try[Int] = Try(throw new Exception)
 val b: Try[Int] = Try(3)
 //val b: Try[Int] = Try(throw new Exception)
 
