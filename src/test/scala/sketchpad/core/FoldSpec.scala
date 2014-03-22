@@ -1,4 +1,4 @@
-package sketchpad.forcomp
+package sketchpad.core
 
 import org.specs2.time.NoTimeConversions
 import org.specs2.mutable.Specification

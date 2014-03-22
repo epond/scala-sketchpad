@@ -1,4 +1,4 @@
-package sketchpad.forcomp
+package sketchpad.core
 
 import scala.concurrent.Future
 
