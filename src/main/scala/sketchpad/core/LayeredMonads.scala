@@ -5,6 +5,7 @@ import scala.concurrent.duration._
 import ExecutionContext.Implicits.global
 import scala.util.{Failure, Success, Try}
 import scalaz._
+import Scalaz._
 
 object LayeredMonads extends App {
 
@@ -45,7 +46,7 @@ object LayeredMonads extends App {
 
 
   /** ------------------------------------------------------------------------------
-      Monadic composition of Reader[Config, Future]
+      Monadic composition of Reader[Config, Future] using a nested for comprehension.
       The for expression is the same as before but the resulting value is a
       function that takes a Config as input.
       ------------------------------------------------------------------------------ */
@@ -75,5 +76,28 @@ object LayeredMonads extends App {
 
   val readerResult = readerAggregate(Config("Bobb"))
 
-  println("Reader[Config, Future] result: " + Await.result(readerResult, 1 second))
+  println("readerAggregate nested for result: " + Await.result(readerResult, 1 second))
+
+  /** ------------------------------------------------------------------------------
+      Monad transformers.
+      ------------------------------------------------------------------------------ */
+  val myList: List[Option[Int]] = List(Some(3), None, Some(4))
+  val optionTList: List[Int] = OptionT(myList).getOrElse(0)
+  println("List: " + myList)
+  println("OptionT(List): " + optionTList)
+
+  /** ------------------------------------------------------------------------------
+      Monadic composition of Reader[Config, Future] using a monad transformer.
+      Something like this? http://typeclassopedia.bitbucket.org/#slide-115
+      ------------------------------------------------------------------------------ */
+//  val readerAggregate2: Reader[Config, Future[Int]] = for {
+//    a <- Kleisli(r1)
+//    b <- Kleisli(r2)
+//    c <- Kleisli(r3)(a, b)
+//    if condition(c)
+//  } yield c
+//
+//  val readerResult2 = readerAggregate2(Config("Bobb"))
+//
+//  println("readerAggregate monad transformer result: " + Await.result(readerResult2, 1 second))
 }

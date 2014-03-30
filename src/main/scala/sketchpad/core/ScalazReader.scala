@@ -7,6 +7,9 @@ import Scalaz._
  * The point of Reader monad is to pass in the configuration information once and
  * everyone uses it without explicitly passing it around.
  *
+ * Scalaz defines Reader as a special case of Kleisli.
+ * ReaderT is equivalent to Kleisli, and Reader is ReaderT in the Identity monad.
+ *
  * http://eed3si9n.com/learning-scalaz-day10
  */
 object ScalazReader extends App {
@@ -24,7 +27,9 @@ object ScalazReader extends App {
 
   // ReaderTOption monad combines Reader's ability to read from some configuration once,
   // and Option's ability to express failure.
+  // We define a ReaderTOption type that is a ReaderT in the desired underlying type (Option here)
   type ReaderTOption[A, B] = ReaderT[Option, A, B]
+  // The corresponding companion object describes how to construct from a kleisli function
   object ReaderTOption extends KleisliFunctions with KleisliInstances {
     def apply[A, B](f: A => Option[B]): ReaderTOption[A, B] = kleisli(f)
   }
