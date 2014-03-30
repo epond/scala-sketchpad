@@ -8,6 +8,9 @@ import scalaz._
  * The return type of myMethod is a decorated Myservice => String that we can use in
  * for comprehensions.
  * The actual injection of the dependency (MyService) is deferred up to a higher layer.
+ *
+ * The point of Reader monad is to pass in the configuration information once and everyone
+ * uses it without explicitly passing it around.
  */
 object MyController {
   def myMethod: Reader[MyService, String] = Reader {
