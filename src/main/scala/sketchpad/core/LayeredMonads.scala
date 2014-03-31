@@ -80,11 +80,32 @@ object LayeredMonads extends App {
 
   /** ------------------------------------------------------------------------------
       Monad transformers.
+      http://noelwelsh.com/programming/2013/12/20/scalaz-monad-transformers/
       ------------------------------------------------------------------------------ */
-  val myList: List[Option[Int]] = List(Some(3), None, Some(4))
-  val optionTList: List[Int] = OptionT(myList).getOrElse(0)
-  println("List: " + myList)
-  println("OptionT(List): " + optionTList)
+  // A simplistic first example. Combine a List with an Option.
+  val optionTList: List[Int] = OptionT(List(Some(3), None, Some(4))).getOrElse(0)
+  // optionTList.toString gives (3, 0, 4)
+  println("optionTList: " + optionTList)
+
+  // A second example. Combine a \/ with an Option.
+  // We define a type here so that OptionT can perform type inferencing on the wrapped monad.
+  type Error[+A] = \/[String, A]
+  // Our resulting type wraps a \/[String, A] in an Option.
+  type Result[+A] = OptionT[Error, A]
+
+  // The default way to construct a value is to use the point method.
+  // point takes a value of any type and returns an applicative value with that value inside it
+  // This first wraps 42 in a Some, and then in a right \/
+  val result: Result[Int] = 42.point[Result]
+  // We can't use point to construct a Result on a None, instead use the OptionT constructor:
+  //val noneResult: Result[Int] = OptionT(none[Int].point[Error])
+  // If we want to create a left \/ we go about it the same way:
+  //val leftResult: Result[Int] = OptionT("Error message".left : Error[Option[Int]])
+  val transformed =
+    for {
+      value <- result
+    } yield value.toString
+  println("transformed: " + transformed)
 
   /** ------------------------------------------------------------------------------
       Monadic composition of Reader[Config, Future] using a monad transformer.
