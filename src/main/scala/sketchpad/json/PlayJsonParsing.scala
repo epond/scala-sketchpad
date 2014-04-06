@@ -27,26 +27,26 @@ object PlayJsonParsing extends App {
 
   implicit val locationReads: Reads[Location] = (
     (JsPath \ "lat").read[Double] and
-      (JsPath \ "long").read[Double]
-    )(Location.apply _)
+    (JsPath \ "long").read[Double]
+  )(Location.apply _)
 
   implicit val residentReads: Reads[Resident] = (
     (JsPath \ "name").read[String] and
-      (JsPath \ "age").read[Int] and
-      (JsPath \ "role").readNullable[String]
-    )(Resident.apply _)
+    (JsPath \ "age").read[Int] and
+    (JsPath \ "role").readNullable[String]
+  )(Resident.apply _)
 
   implicit val placeReads: Reads[Place] = (
     (JsPath \ "name").read[String] and
-      (JsPath \ "location").read[Location] and
-      (JsPath \ "residents").read[Seq[Resident]]
-    )(Place.apply _)
+    (JsPath \ "location").read[Location] and
+    (JsPath \ "residents").read[Seq[Resident]]
+  )(Place.apply _)
 
   val jsValue = Json.parse(jsonString)
   val placeResult: JsResult[Place] = jsValue.validate[Place]
 
   placeResult match {
     case s: JsSuccess[Place] => println(s.get)
-    case _ => println("Error parsing")
+    case e: JsError => println("Error when parsing: " + JsError.toFlatJson(e).toString())
   }
 }
