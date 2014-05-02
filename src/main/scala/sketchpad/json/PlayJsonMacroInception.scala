@@ -24,9 +24,9 @@ object PlayJsonMacroInception extends App {
   case class Resident(name: String, age: Int, role: Option[String])
   case class Place(name: String, location: Location, residents: Seq[Resident])
 
-  implicit val locationReads: Reads[Location] = Json.reads[Location]
-  implicit val residentReads: Reads[Resident] = Json.reads[Resident]
-  implicit val placeReads: Reads[Place] = Json.reads[Place]
+  implicit val locationJsonFormat: Format[Location] = Json.format[Location]
+  implicit val residentJsonFormat: Format[Resident] = Json.format[Resident]
+  implicit val placeJsonFormat: Format[Place] = Json.format[Place]
 
   val jsValue = Json.parse(jsonString)
   val placeResult: JsResult[Place] = jsValue.validate[Place]
