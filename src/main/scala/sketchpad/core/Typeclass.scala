@@ -25,7 +25,8 @@ object Math {
   }
 
   object NumberLike {
-    // members of typeclasses are usually singleton objects
+    // NumberLikeInt is the member of the NumberLike typeclass for the Int type. It is made available in implicit scope.
+    // Members of typeclasses are usually singleton objects
     implicit object NumberLikeInt extends NumberLike[Int] {
       def plus(x: Int, y: Int): Int = x + y
       def divide(x: Int, y: Int): Int = x / y
