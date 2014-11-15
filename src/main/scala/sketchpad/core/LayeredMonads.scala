@@ -9,6 +9,9 @@ import Scalaz._
 
 object LayeredMonads extends App {
 
+  // see http://underscoreconsulting.com/blog/posts/2013/12/20/scalaz-monad-transformers.html
+  // see http://noelwelsh.com/programming/2013/12/20/scalaz-monad-transformers/
+
   /** ------------------------------------------------------------------------------
       Monadic composition of Try[Future]
       If any of the input Try values fail then the aggregate Try fails.
@@ -97,7 +100,8 @@ object LayeredMonads extends App {
   // point takes a value of any type and returns an applicative value with that value inside it
   // This first wraps 42 in a Some, and then in a right \/
   val result: Result[Int] = 42.point[Result]
-  // We can't use point to construct a Result on a None, instead use the OptionT constructor:
+  // We can't use point to construct a Result on a None because it is not on the 'happy path'.
+  // Instead use the OptionT constructor:
   //val noneResult: Result[Int] = OptionT(none[Int].point[Error])
   // If we want to create a left \/ we go about it the same way:
   //val leftResult: Result[Int] = OptionT("Error message".left : Error[Option[Int]])
