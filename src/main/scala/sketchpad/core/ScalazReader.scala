@@ -30,7 +30,7 @@ object ScalazReader extends App {
   // We define a ReaderTOption type that is a ReaderT in the desired underlying type (Option here)
   type ReaderTOption[A, B] = ReaderT[Option, A, B]
   // The corresponding companion object describes how to construct from a kleisli function
-  object ReaderTOption extends KleisliFunctions with KleisliInstances {
+  object ReaderTOption extends KleisliFunctions {
     def apply[A, B](f: A => Option[B]): ReaderTOption[A, B] = kleisli(f)
   }
 

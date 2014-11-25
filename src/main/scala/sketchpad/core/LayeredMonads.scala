@@ -94,7 +94,7 @@ object LayeredMonads extends App {
   // We define a type here so that OptionT can perform type inferencing on the wrapped monad.
   type Error[+A] = \/[String, A]
   // Our resulting type wraps a \/[String, A] in an Option.
-  type Result[+A] = OptionT[Error, A]
+  type Result[A] = OptionT[Error, A]
 
   // The default way to construct a value is to use the point method.
   // point takes a value of any type and returns an applicative value with that value inside it
