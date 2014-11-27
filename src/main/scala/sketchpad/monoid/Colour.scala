@@ -23,6 +23,10 @@ object Colour {
   val blue =  Colour(0, 0, 255, 1)
 }
 
+/**
+ * Additive colour starts from black and applying each primary colour gives us white.
+ * The primary colours are commonly Red, Green and Blue.
+ */
 object AdditiveColourMonoid extends Monoid[Colour] {
 
   override def zero: Colour = Colour(0, 0, 0, 0)
@@ -35,4 +39,17 @@ object AdditiveColourMonoid extends Monoid[Colour] {
       c1.mass+c2.mass
     )
   }
+}
+
+// TODO extract subtractive colour to its own file with its own subtractive colour model
+
+/**
+ * Subtractive colour starts from white and applying each primary colour gives us black.
+ * The primary colours are commonly Red, Yellow and Blue.
+ */
+object SubtractiveColourMonoid extends Monoid[Colour] {
+
+  override def zero: Colour = ???
+
+  override def append(c1: Colour, c2: => Colour): Colour = ???
 }
