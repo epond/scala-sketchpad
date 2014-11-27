@@ -31,18 +31,18 @@ class ColourMonoidSpec extends Specification {
     }
 
     "recognise black" in {
-      Colour.isBlack(Colour(0, 0, 0, 0)) must beTrue
-      Colour.isBlack(Colour(0, 0, 0, 1)) must beTrue
-      Colour.isBlack(Colour(10, 20, 30, 0)) must beTrue
-      Colour.isBlack(Colour(10, 20, 30, 1)) must beFalse
+      Colour(0, 0, 0, 0).isBlack must beTrue
+      Colour(0, 0, 0, 1).isBlack must beTrue
+      Colour(10, 20, 30, 0).isBlack must beTrue
+      Colour(10, 20, 30, 1).isBlack must beFalse
     }
 
     "recognise white" in {
-      Colour.isWhite(Colour(255, 255, 255, 1)) must beTrue
-      Colour.isWhite(Colour(1, 1, 1, 1)) must beTrue
-      Colour.isWhite(Colour(1, 1, 1, 0)) must beFalse
-      Colour.isWhite(Colour(255, 254, 255, 1)) must beFalse
-      Colour.isWhite(Colour(0, 0, 0, 0)) must beFalse
+      Colour(255, 255, 255, 1).isWhite must beTrue
+      Colour(1, 1, 1, 1).isWhite must beTrue
+      Colour(1, 1, 1, 0).isWhite must beFalse
+      Colour(255, 254, 255, 1).isWhite must beFalse
+      Colour(0, 0, 0, 0).isWhite must beFalse
     }
   }
 
