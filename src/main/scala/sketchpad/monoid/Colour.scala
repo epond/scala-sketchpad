@@ -19,6 +19,8 @@ object Colour {
   val red =   Colour(255, 0, 0, 1)
   val green = Colour(0, 255, 0, 1)
   val blue =  Colour(0, 0, 255, 1)
+  def isBlack(c: Colour) = c.mass == 0 || c.redBucket == 0 && c.greenBucket == 0 && c.blueBucket == 0
+  def isWhite(c: Colour) = c.mass > 0 && c.redBucket > 0 && c.redBucket == c.greenBucket && c.redBucket == c.blueBucket
 }
 
 object AdditiveColourMonoid extends Monoid[Colour] {

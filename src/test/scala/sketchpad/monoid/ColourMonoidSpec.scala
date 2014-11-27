@@ -29,6 +29,21 @@ class ColourMonoidSpec extends Specification {
       colour.greenComponent must beEqualTo(2)
       colour.blueComponent must beEqualTo(4)
     }
+
+    "recognise black" in {
+      Colour.isBlack(Colour(0, 0, 0, 0)) must beTrue
+      Colour.isBlack(Colour(0, 0, 0, 1)) must beTrue
+      Colour.isBlack(Colour(10, 20, 30, 0)) must beTrue
+      Colour.isBlack(Colour(10, 20, 30, 1)) must beFalse
+    }
+
+    "recognise white" in {
+      Colour.isWhite(Colour(255, 255, 255, 1)) must beTrue
+      Colour.isWhite(Colour(1, 1, 1, 1)) must beTrue
+      Colour.isWhite(Colour(1, 1, 1, 0)) must beFalse
+      Colour.isWhite(Colour(255, 254, 255, 1)) must beFalse
+      Colour.isWhite(Colour(0, 0, 0, 0)) must beFalse
+    }
   }
 
   "A ColourMonoid" should {
