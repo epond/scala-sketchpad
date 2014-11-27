@@ -24,9 +24,15 @@ object Colour {
 }
 
 object AdditiveColourMonoid extends Monoid[Colour] {
-  // Zero value has no mass to obey identity law
+
   override def zero: Colour = Colour(0, 0, 0, 0)
 
-  // TODO Append adds components without wrapping, and increments mass by 1
-  override def append(colour1: Colour, colour2: => Colour): Colour = colour1
+  override def append(c1: Colour, c2: => Colour): Colour = {
+    Colour(
+      c1.redBucket+c2.redBucket,
+      c1.greenBucket+c2.greenBucket,
+      c1.blueBucket+c2.blueBucket,
+      c1.mass+c2.mass
+    )
+  }
 }
