@@ -5,6 +5,9 @@ import scalaz._
 import Scalaz._
 
 class ColourMonoidSpec extends Specification {
+
+  implicit val colourMonoid = AdditiveColourMonoid
+
   "A Colour" should {
     "have zero component values when mass is zero" in {
       val colour = Colour(0, 10, 20, 0)
