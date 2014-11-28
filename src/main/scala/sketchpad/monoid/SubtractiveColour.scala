@@ -4,20 +4,28 @@ import scalaz._
 
 /**
  * Subtractive colour starts from white and applying all primary colours makes black.
- * The primary colours are Yellow, Magenta and Cyan.
+ * The primary colours are Cyan, Magenta and Yellow
  */
-case class SubtractiveColour(yellowBucket: Long, magentaBucket: Long, cyanBucket: Long, mass: Long) {
-  val yellowComponent  = if (mass > 0) yellowBucket  / mass else 0
-  val magentaComponent = if (mass > 0) magentaBucket / mass else 0
-  val cyanComponent    = if (mass > 0) cyanBucket    / mass else 0
+case class SubtractiveColour(cyanBucket: Long, magentaBucket: Long, yellowBucket: Long, mass: Long) {
   val isBlack = mass > 0 && yellowBucket > 0 && yellowBucket == magentaBucket && yellowBucket == cyanBucket
   val isWhite = mass == 0 || yellowBucket == 0 && magentaBucket == 0 && cyanBucket == 0
+  val normalise = CMYColour(
+    if (mass > 0) cyanBucket    / mass else 0,
+    if (mass > 0) magentaBucket / mass else 0,
+    if (mass > 0) yellowBucket  / mass else 0
+  )
 }
 
 object SubtractiveColour {
-  val yellow  = SubtractiveColour(0, 255, 255, 1)
-  val magenta = SubtractiveColour(255, 0, 255, 1)
-  val cyan    = SubtractiveColour(255, 255, 0, 1)
+  def apply(colour: CMYColour): SubtractiveColour = SubtractiveColour(colour.cyan, colour.magenta, colour.yellow, 1)
+}
+
+case class CMYColour(cyan: Long, magenta: Long, yellow: Long)
+
+object CMYColour {
+  val cyan    = CMYColour(0, 255, 255)
+  val magenta = CMYColour(255, 0, 255)
+  val yellow  = CMYColour(255, 255, 0)
 }
 
 object SubtractiveColourMonoid extends Monoid[SubtractiveColour] {
