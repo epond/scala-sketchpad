@@ -7,17 +7,25 @@ import scalaz._
  * The primary colours are Red, Green and Blue.
  */
 case class AdditiveColour (redBucket: Long, greenBucket: Long, blueBucket: Long, mass: Long) {
-  val redComponent   = if (mass > 0) redBucket   / mass else 0
-  val greenComponent = if (mass > 0) greenBucket / mass else 0
-  val blueComponent  = if (mass > 0) blueBucket  / mass else 0
   val isBlack = mass == 0 || redBucket == 0 && greenBucket == 0 && blueBucket == 0
   val isWhite = mass > 0 && redBucket > 0 && redBucket == greenBucket && redBucket == blueBucket
+  val normalise = RGBColour(
+    if (mass > 0) redBucket   / mass else 0,
+    if (mass > 0) greenBucket / mass else 0,
+    if (mass > 0) blueBucket  / mass else 0
+  )
 }
 
 object AdditiveColour {
-  val red =   AdditiveColour(255, 0, 0, 1)
-  val green = AdditiveColour(0, 255, 0, 1)
-  val blue =  AdditiveColour(0, 0, 255, 1)
+  def apply(colour: RGBColour): AdditiveColour = AdditiveColour(colour.red, colour.green, colour.blue, 1)
+}
+
+case class RGBColour(red: Long, green: Long, blue: Long)
+
+object RGBColour {
+  val red = RGBColour(255, 0, 0)
+  val green = RGBColour(0, 255, 0)
+  val blue = RGBColour(0, 0, 255)
 }
 
 /**

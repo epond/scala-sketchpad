@@ -9,23 +9,23 @@ class AdditiveColourMonoidSpec extends Specification {
   "An AdditiveColour" should {
     "have zero component values when mass is zero" in {
       val colour = AdditiveColour(0, 10, 20, 0)
-      colour.redComponent must beEqualTo(0)
-      colour.greenComponent must beEqualTo(0)
-      colour.blueComponent must beEqualTo(0)
+      colour.normalise.red must beEqualTo(0)
+      colour.normalise.green must beEqualTo(0)
+      colour.normalise.blue must beEqualTo(0)
     }
 
     "have component values equal to buckets when mass is 1" in {
       val colour = AdditiveColour(0, 10, 20, 1)
-      colour.redComponent must beEqualTo(0)
-      colour.greenComponent must beEqualTo(10)
-      colour.blueComponent must beEqualTo(20)
+      colour.normalise.red must beEqualTo(0)
+      colour.normalise.green must beEqualTo(10)
+      colour.normalise.blue must beEqualTo(20)
     }
 
     "have component values equal to bucket divided by mass" in {
       val colour = AdditiveColour(0, 10, 20, 5)
-      colour.redComponent must beEqualTo(0)
-      colour.greenComponent must beEqualTo(2)
-      colour.blueComponent must beEqualTo(4)
+      colour.normalise.red must beEqualTo(0)
+      colour.normalise.green must beEqualTo(2)
+      colour.normalise.blue must beEqualTo(4)
     }
 
     "recognise black" in {
@@ -49,14 +49,14 @@ class AdditiveColourMonoidSpec extends Specification {
     implicit val colourMonoid = AdditiveColourMonoid
 
     "satisfy the identity monoid law" in {
-      Monoid[AdditiveColour].zero |+| AdditiveColour.red   must beEqualTo(AdditiveColour.red)
-      Monoid[AdditiveColour].zero |+| AdditiveColour.green must beEqualTo(AdditiveColour.green)
-      Monoid[AdditiveColour].zero |+| AdditiveColour.blue  must beEqualTo(AdditiveColour.blue)
+      (Monoid[AdditiveColour].zero |+| AdditiveColour(RGBColour.red)).normalise   must beEqualTo(RGBColour.red)
+      (Monoid[AdditiveColour].zero |+| AdditiveColour(RGBColour.green)).normalise must beEqualTo(RGBColour.green)
+      (Monoid[AdditiveColour].zero |+| AdditiveColour(RGBColour.blue)).normalise  must beEqualTo(RGBColour.blue)
     }
 
     "satisfy the associativity law" in {
-      AdditiveColour.red |+| AdditiveColour.red |+| AdditiveColour.blue must beEqualTo(
-        AdditiveColour.red |+| AdditiveColour.blue |+| AdditiveColour.red
+      (AdditiveColour(RGBColour.red) |+| AdditiveColour(RGBColour.red) |+| AdditiveColour(RGBColour.blue)).normalise must beEqualTo(
+        (AdditiveColour(RGBColour.red) |+| AdditiveColour(RGBColour.blue) |+| AdditiveColour(RGBColour.red)).normalise
       )
     }
   }
