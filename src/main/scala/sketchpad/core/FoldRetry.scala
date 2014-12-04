@@ -2,7 +2,7 @@ package sketchpad.core
 
 import scala.concurrent.Future
 
-object Fold {
+object FoldRetry {
 
   /**
    * retry demonstrates how fold can be used to repeatedly try something.
