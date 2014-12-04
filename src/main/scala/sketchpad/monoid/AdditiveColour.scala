@@ -29,6 +29,9 @@ object RGBColour {
 }
 
 /**
+ * An analogy that can be applied to this monoid is that it represents a group of torches that
+ * are emitting light of different colours and intensities.
+ *
  * LYAHFGG says:
  * A monoid is when you have an associative binary function and a value which acts as an identity with respect
  * to that function.

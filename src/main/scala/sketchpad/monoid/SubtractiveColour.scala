@@ -28,6 +28,10 @@ object CMYColour {
   val yellow  = CMYColour(255, 255, 0)
 }
 
+/**
+ * An analogy that can be applied to this monoid is that it represents a group of filters of
+ * varying colour and opaqueness.
+ */
 object SubtractiveColourMonoid extends Monoid[SubtractiveColour] {
 
   override def zero: SubtractiveColour = SubtractiveColour(255, 255, 255, 0)
