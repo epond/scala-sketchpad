@@ -21,5 +21,6 @@ class AlgebraicDataTypesSpec extends Specification {
   def idEquals(id: Int): (Instruction) => Boolean = instr => instr match {
     case Order(i,_,_) => i == id
     case Cancel(i) => i == id
+    case Reset => false
   }
 }

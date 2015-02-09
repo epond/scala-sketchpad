@@ -32,6 +32,7 @@ object OrderProcessor {
     instructions.filter(_ match {
       case Order(id,_,_) => id == oid
       case Cancel(xid) => xid == oid
+      case Reset => false
       // Using a default case like below will remove the benefit of the static type checks
       // case _ => false
     })
@@ -46,6 +47,7 @@ case class Order (id: Int, price: BigDecimal, size: Int) extends Instruction
 // Commenting out either Order or Cancel will make the compiler flag up an impossible case
 /** Cancel a transaction order */
 case class Cancel (xid: Int) extends Instruction
+case object Reset extends Instruction
 
 // Uncommenting CancelReplace will make the compiler flag up a missed case
 /** Cancel a transaction order and replace it using the provided details */
