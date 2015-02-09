@@ -17,6 +17,16 @@ package sketchpad.core
  */
 object AlgebraicDataTypes extends App {
 
+  val instrs = List(
+    Order(1,10.23,5),
+    Order(2,4.97,3),
+    Cancel(2)
+  )
+
+  println(OrderProcessor.filterByOid(instrs, 2))
+}
+
+object OrderProcessor {
   // Here is an example of using a match statement to process our type while enforcing the inherent static checks
   def filterByOid(instructions: Seq[Instruction], oid: Int): Seq[Instruction] = {
     instructions.filter(_ match {
@@ -26,14 +36,6 @@ object AlgebraicDataTypes extends App {
       // case _ => false
     })
   }
-
-  val instrs = List(
-    Order(1,10.23,5),
-    Order(2,4.97,3),
-    Cancel(2)
-  )
-
-  println(filterByOid(instrs, 2))
 }
 
 // Instruction is a Sum type (or Variant) meaning it can be any of multiple possibilities
