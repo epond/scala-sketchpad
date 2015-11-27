@@ -1,6 +1,6 @@
 package sketchpad.core
 
-import sketchpad.core.UserAPI.{APIKey, StreetAddress}
+import sketchpad.core.UserAPI.{UserName, Email, APIKey, StreetAddress}
 
 import scalaz._
 import Scalaz._
@@ -20,29 +20,29 @@ object ReaderTransformer extends App {
   val streetAddressFromReader: Option[StreetAddress] = streetAddressReader(apiKey)
 }
 
-case class User(name: UserAPI.Name, email: UserAPI.Email)
+case class User(name: UserName, email: Email)
 
 object UserAPI {
   type Email = String
-  type Name = String
+  type UserName = String
   type StreetAddress = String
   type APIKey = String
 
-  def getUser(name: Name, apiKey: APIKey): Option[User] =
-    Some(User("Fred", "fred@mail.com"))
-  def getStreetAddress(email: String, apiKey: APIKey): Option[StreetAddress] =
+  def getUser(username: UserName, apiKey: APIKey): Option[User] =
+    Some(User(username, "fred@mail.com"))
+  def getStreetAddress(email: Email, apiKey: APIKey): Option[StreetAddress] =
     Some("1 Acacia Road")
 }
 
 object UserReaderAPI {
   import Kleisli._
 
-  def getUser(name: UserAPI.Name): ReaderT[Option, UserAPI.APIKey, User] = {
+  def getUser(username: UserName): ReaderT[Option, APIKey, User] = {
     kleisli { apiKey =>
-      UserAPI.getUser(name, apiKey)
+      UserAPI.getUser(username, apiKey)
     }
   }
-  def getStreetAddress(email: String): ReaderT[Option, UserAPI.APIKey, UserAPI.StreetAddress] = {
+  def getStreetAddress(email: Email): ReaderT[Option, APIKey, StreetAddress] = {
     kleisli { apiKey =>
       UserAPI.getStreetAddress(email, apiKey)
     }
