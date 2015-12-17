@@ -7,5 +7,8 @@ class TypeclassSpec extends Specification {
     "provide a member for Int implicitly" in {
       Statistics.mean(Vector[Int](1,2,3)) must beEqualTo(2)
     }
+    "provide a member for String implicitly" in {
+      Statistics.mean(Vector[String]("1","2","3")) must beEqualTo("2")
+    }
   }
 }

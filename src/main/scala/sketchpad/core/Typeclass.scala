@@ -1,5 +1,7 @@
 package sketchpad.core
 
+import scala.util.Try
+
 /**
  * Ad-hoc polymorphism, also known as type classes. In Scala this is a trait with a type parameter.
  *
@@ -31,6 +33,12 @@ object Math {
       def plus(x: Int, y: Int): Int = x + y
       def divide(x: Int, y: Int): Int = x / y
       def minus(x: Int, y: Int): Int = x - y
+    }
+
+    implicit object NumberLikeString extends NumberLike[String] {
+      def plus(x: String, y: String): String = Try(x.toInt + y.toInt).toOption.getOrElse(0).toString
+      def divide(x: String, y: Int): String = Try(x.toInt / y.toInt).toOption.getOrElse(0).toString
+      def minus(x: String, y: String): String = Try(x.toInt - y.toInt).toOption.getOrElse(0).toString
     }
   }
 }
