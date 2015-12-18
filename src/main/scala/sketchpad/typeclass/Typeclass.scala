@@ -1,4 +1,4 @@
-package sketchpad.core
+package sketchpad.typeclass
 
 import scala.util.Try
 
@@ -44,7 +44,8 @@ object Math {
 }
 
 object Statistics {
-  import sketchpad.core.Math.NumberLike
+  import Math.NumberLike
+
   def mean[T](xs: Vector[T])(implicit ev: NumberLike[T]): T =
     ev.divide(xs.reduce(ev.plus(_, _)), xs.size)
 }
