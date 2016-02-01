@@ -4,18 +4,34 @@ import dispatch._, Defaults._
 
 object Dispatch extends App {
 
+  val http = Http()
+
   // Given a Location, build a Dispatch Request
   def weatherSvc(loc: Location): Req = {
-    host("api.wunderground.com") / "api" / "5a7c66db0ba0323a" /
+    host("api.wunderground.com") / "apii" / "5a7c66db0ba0323a" /
       "conditions" / "q" / loc.state / (loc.city + ".xml")
   }
 
   //Given a Location, acquire either the weather xml or an error message
+  //and log any errors
   def weatherXml(loc: Location): Future[Either[String, xml.Elem]] = {
     val res: Future[Either[Throwable, xml.Elem]] =
-      Http(weatherSvc(loc) OK as.xml.Elem).either
+      http(weatherSvc(loc) OK as.xml.Elem).either
     for (exc <- res.left)
-      yield "Can't connect to weather service due to: " + exc.getMessage
+      yield exc match {
+        case StatusCode(404) => {
+          println(s"Log Error: service gave a 404")
+          "Can't connect to weather service due to 404"
+        }
+        case StatusCode(statusCode) => {
+          println(s"Log Error: service gave status code $statusCode")
+          s"Can't connect to weather service due to $statusCode"
+        }
+        case _ => {
+          println(s"Log Error: ${exc.getMessage}")
+          "Can't connect to weather service due to: " + exc.getMessage
+        }
+      }
   }
 
   // Given the weather xml, extract either a temperature value or an error message
@@ -40,11 +56,8 @@ object Dispatch extends App {
   // Any errors must be logged (printed to console)
   temperature(Location("London", "United Kingdom")) foreach {
     _ match {
-      case Right(temp) => println(s"Display: Temperature of London is $temp")
-      case Left(error) => {
-        println(s"Log Error: $error")
-        println("Display: Unable to get temperature")
-      }
+      case Right(temp) => println(s"Display: Temperature of London is $temp"); http.shutdown()
+      case Left(error) => println("Display: Unable to get temperature"); http.shutdown()
     }
   }
 }
