@@ -1,6 +1,9 @@
 package sketchpad.typeclass
 
+import simulacrum._
+
 // https://skillsmatter.com/skillscasts/6832-what-are-typeclasses-and-why-you-should-care
+// https://github.com/mpilquist/simulacrum
 
 trait Combinable[T] {
   def combine(a: T, b: T): T
@@ -27,4 +30,8 @@ object Combinable {
       }
     }
   }
+}
+
+@typeclass trait SimulacrumCombinable[T] {
+  def combine(a: T, b: T): T
 }
