@@ -1,5 +1,7 @@
 package sketchpad.core
 
+import scala.xml.Node
+
 /**
  * http://www.scala-lang.org/api/2.10.4/index.html#scala.xml.package
  */
@@ -27,4 +29,38 @@ object ScalaXMLProcessing extends App {
     .reverse.headOption
     .map(citationIndex => (citationIndex \ "@ImpactFactor").text)
   )
+
+  val article =
+    <Publisher>
+      <Journal>
+        <Volume>
+          <Issue>
+            <Article>
+              <Body>
+                <Section1>
+                  <Para>This is a paragraph <InlineEquation>
+                    <EquationSource Format="BLAH"></EquationSource>
+                  </InlineEquation>
+                  </Para>
+                  <Para>This is a paragraph <InlineEquation>
+                      <EquationSource Format="TEX"></EquationSource>
+                    </InlineEquation>
+                  </Para>
+                </Section1>
+              </Body>
+            </Article>
+          </Issue>
+        </Volume>
+      </Journal>
+    </Publisher>
+
+  def isMathjaxEquation: (Node) => Boolean = {
+    equation => (equation \ "@Format").text == "TEX" || (equation \ "@Format").text == "MATHML"
+  }
+
+  val result =
+    (article \\ "Equation" \ "EquationSource").exists(isMathjaxEquation) ||
+    (article \\ "InlineEquation" \ "EquationSource").exists(isMathjaxEquation)
+
+  println(result)
 }
