@@ -1,5 +1,6 @@
 package sketchpad.bettereither
 
+import sketchpad.bettereither.BiasedEither._
 import org.specs2.mutable.Specification
 
 class EitherSpec extends Specification {
@@ -39,7 +40,6 @@ class EitherSpec extends Specification {
     }
 
     "Behave correctly in a for comprehension" in {
-      import Either._
       (for {
         a <- (\/-(2): String \/ Int)
         b <- (\/-(3): String \/ Int)
