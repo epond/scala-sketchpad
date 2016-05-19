@@ -11,7 +11,7 @@ object FuturesOfEither {
     for {
       articleE <- lookup.lookupArticle(articleId)
       userE <- lookup.lookupUser(userName)
-      contactsE <- lookup.lookupContacts(userE)
+      contactsE <- lookupContacts(userE, lookup)
     } yield {
       val contacts: Seq[User] = contactsE match {
         case \/-(contacts) => contacts
@@ -21,8 +21,14 @@ object FuturesOfEither {
         case \/-(article) => {
           PageRendering(s"$article,$contacts")
         }
+        case -\/(msg) => PageRendering(s"Error: $msg")
       }
     }
+  }
+
+  def lookupContacts(userE: String \/ User, lookup: Lookup): Future[String \/ Seq[User]] = userE match {
+    case \/-(user) => lookup.lookupContacts(user)
+    case -\/(_) => Future.successful(\/-(List()))
   }
 }
 
@@ -33,5 +39,5 @@ case class PageRendering(content: String)
 trait Lookup {
   def lookupArticle(id: String): Future[String \/ Article]
   def lookupUser(name: String): Future[String \/ User]
-  def lookupContacts(user: String \/ User): Future[String \/ Seq[User]]
+  def lookupContacts(user: User): Future[String \/ Seq[User]]
 }

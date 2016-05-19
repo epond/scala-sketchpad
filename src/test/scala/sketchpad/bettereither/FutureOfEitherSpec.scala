@@ -21,10 +21,16 @@ class FutureOfEitherSpec extends Specification {
       Await.result(page, Duration(1, SECONDS)) must beEqualTo(PageRendering(expectedRendering))
     }
     "contain article and empty contact list when user lookup fails" in {
-      pending
+      val lookup = DummyLookup(\/-(Article("123")), -\/("user fail"), \/-(List(User("Freddie"))))
+      val page: Future[PageRendering] = FuturesOfEither.renderPage("", "", lookup)
+      val expectedRendering = "Article(123),List()"
+      Await.result(page, Duration(1, SECONDS)) must beEqualTo(PageRendering(expectedRendering))
     }
-    "fail when article lookup fails" in {
-      pending
+    "contain error when article lookup fails" in {
+      val lookup = DummyLookup(-\/("article fail"), \/-(User("Dave")), \/-(List(User("Freddie"))))
+      val page: Future[PageRendering] = FuturesOfEither.renderPage("", "", lookup)
+      val expectedRendering = "Error: article fail"
+      Await.result(page, Duration(1, SECONDS)) must beEqualTo(PageRendering(expectedRendering))
     }
   }
 }
@@ -34,5 +40,5 @@ case class DummyLookup(article: String \/ Article,
                        contacts: String \/ Seq[User]) extends Lookup {
   override def lookupArticle(id: String): Future[\/[String, Article]] = Future.successful(article)
   override def lookupUser(name: String): Future[\/[String, User]] = Future.successful(user)
-  override def lookupContacts(user: \/[String, User]): Future[\/[String, Seq[User]]] = Future.successful(contacts)
+  override def lookupContacts(user: User): Future[\/[String, Seq[User]]] = Future.successful(contacts)
 }
