@@ -11,20 +11,23 @@ case class Car(fuel: Fuel)
 case object Motorbike
 
 trait Weighable[T] {
-  def weight: Int
+  def weight(x: T): Int
 }
 
 object Weighable {
   implicit object WeighableCar extends Weighable[Car] {
-    val weight = 22
+    def weight(c: Car) = c match {
+      case Car(Fuel.Petrol) => 20
+      case Car(Fuel.Diesel) => 22
+    }
   }
   implicit object WeighableMotorbike extends Weighable[Motorbike.type] {
-    val weight = 10
+    def weight(m: Motorbike.type) = 10
   }
 }
 
 object Scales {
   def sumWeighable[T](a: T, b: T)(implicit evidence: Weighable[T]): Int = {
-    evidence.weight + evidence.weight
+    evidence.weight(a) + evidence.weight(b)
   }
 }
