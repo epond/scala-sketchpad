@@ -5,7 +5,7 @@ import sketchpad.typeclass.Fuel.{Diesel, Petrol}
 
 class Typeclass2Spec extends Specification {
   "The Weighable typeclass" should {
-    import sketchpad.typeclass.Weighable._
+    import WeighableEvidence._
 //    "find the weight of a Petrol Car" in {
 //      Car(Petrol).weight must beEqualTo(20)
 //    }
@@ -21,8 +21,8 @@ class Typeclass2Spec extends Specification {
     "find the combined weight of two different Cars" in {
       Scales.sumWeighable(Car(Petrol), Car(Diesel)) must beEqualTo(42)
     }
-//    "find the combined weight of two Weighable things" in {
-//      Scales.sumWeighable(Car(Diesel), Motorbike) must beEqualTo(32)
-//    }
+    "find the combined weight of two Weighable things" in {
+      Scales.sumWeighable(Car(Diesel), Motorbike) must beEqualTo(32)
+    }
   }
 }
