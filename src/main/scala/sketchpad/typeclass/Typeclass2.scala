@@ -1,7 +1,7 @@
 package sketchpad.typeclass
 
 sealed trait Fuel
-case object Fuel {
+object Fuel {
   case object Petrol extends Fuel
   case object Diesel extends Fuel
 }
