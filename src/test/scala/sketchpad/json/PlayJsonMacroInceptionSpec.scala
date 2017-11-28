@@ -37,5 +37,14 @@ class PlayJsonMacroInceptionSpec extends Specification {
       ))
       placeJson must beEqualTo(jsonString)
     }
+
+    "Given JSON with an incorrect field name produce an error" in {
+      val jsonWithIncorrectField = """{"name":"Watership Down","location":{"lat":51.235685,"long":-1.309197},"resident":[{"name":"Fiver","age":4},{"name":"Bigwig","age":6,"role":"Owsla"}]}"""
+      val jsResult = Json.parse(jsonWithIncorrectField).validate[Place]
+      jsResult match {
+        case s: JsSuccess[Place] => ko("unexpected success")
+        case e: JsError => ok("expected error")
+      }
+    }
   }
 }
