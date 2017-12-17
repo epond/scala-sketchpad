@@ -7,7 +7,7 @@ import play.api.libs.json._
   * JSON automated mapping.
   * https://www.playframework.com/documentation/2.6.x/ScalaJsonAutomated
   */
-object PlayJsonMacroInception {
+object JsonAutomatedMapping {
   val jsonString = """{
                      |  "name" : "Watership Down",
                      |  "location" : {
@@ -34,8 +34,8 @@ object PlayJsonMacroInception {
   implicit val placeJsonFormat: Format[Place] = Json.format[Place]
 }
 
-object PlayJsonMacroInceptionRunner extends App {
-  import PlayJsonMacroInception._
+object JsonAutomatedMappingRunner extends App {
+  import JsonAutomatedMapping._
 
   val jsValue = Json.parse(jsonString)
   val placeResult: JsResult[Place] = jsValue.validate[Place]
