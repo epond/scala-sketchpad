@@ -4,9 +4,8 @@ import org.specs2.mutable.Specification
 import scala.concurrent._
 import scala.concurrent.duration._
 import ExecutionContext.Implicits.global
-import org.specs2.time.NoTimeConversions
 
-class ForComprehensionsSpec extends Specification with NoTimeConversions {
+class ForComprehensionsSpec extends Specification {
   val f1 = Future("Hello" + "World")
   val f2 = Future(1 + 2)
   val f3 = (a: String, b: Int) => Future(a.length * b)

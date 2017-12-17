@@ -2,6 +2,11 @@ package sketchpad.json
 
 import play.api.libs.json._
 
+/**
+  * This used to be called JSON macro inception but is now called
+  * JSON automated mapping.
+  * https://www.playframework.com/documentation/2.6.x/ScalaJsonAutomated
+  */
 object PlayJsonMacroInception {
   val jsonString = """{
                      |  "name" : "Watership Down",
@@ -37,7 +42,7 @@ object PlayJsonMacroInceptionRunner extends App {
 
   placeResult match {
     case s: JsSuccess[Place] => println(s.get)
-    case e: JsError => println("Error when parsing: " + JsError.toFlatJson(e).toString())
+    case e: JsError => println("Error when parsing: " + JsError.toJson(e).toString())
   }
 
   println(Json.toJson(

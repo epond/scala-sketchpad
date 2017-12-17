@@ -12,7 +12,7 @@ import Scalaz._
  *
  * http://eed3si9n.com/learning-scalaz-day10
  */
-object ScalazReader extends App {
+object ScalazReader extends App { /* TODO: rewrite with Cats
   def myName(step: String): Reader[String, String] = Reader {step + " I am " + _}
 
   def localExample: Reader[String, (String, String, String)] = for {
@@ -55,5 +55,5 @@ object ScalazReader extends App {
     "user" -> "sa"
   )
 
-  println("setup with badConfig: " + setupConnection(badConfig))
+  println("setup with badConfig: " + setupConnection(badConfig)) */
 }

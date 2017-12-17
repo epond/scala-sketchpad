@@ -47,6 +47,6 @@ object PlayJsonParsing extends App {
 
   placeResult match {
     case s: JsSuccess[Place] => println(s.get)
-    case e: JsError => println("Error when parsing: " + JsError.toFlatJson(e).toString())
+    case e: JsError => println("Error when parsing: " + JsError.toJson(e).toString())
   }
 }

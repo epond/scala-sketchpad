@@ -4,7 +4,7 @@ import dispatch._, Defaults._
 
 object Dispatch extends App {
 
-  val http = Http()
+  val http = Http.default
 
   // Given a Location, build a Dispatch Request
   def weatherSvc(loc: Location): Req = {

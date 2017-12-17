@@ -1,12 +1,10 @@
 package sketchpad.core
 
-import org.specs2.time.NoTimeConversions
 import org.specs2.mutable.Specification
 import scala.concurrent.{Await, Promise, Future}
 import scala.concurrent.duration._
-import scala.util.{Failure, Success}
 
-class FoldRetrySpec extends Specification with NoTimeConversions {
+class FoldRetrySpec extends Specification {
 
   def succeedOnAttempt(requiredTries: Int): () => Future[String] = {
     var tryCount: Int = 0
